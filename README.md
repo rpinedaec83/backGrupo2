@@ -1,3 +1,7 @@
 # Back Grupo2
-#hi
-#hola
+
+## Integrantes
+
+- Gabriela
+- Herless
+- Mariza
