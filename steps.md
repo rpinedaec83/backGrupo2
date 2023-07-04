@@ -1,6 +1,6 @@
 1. `py -m venv venv`
 2. `source venv/scripts/activate`
-3. `pip freeze > requirements.txt`
+3. `pip install -r requierements.txt`
 4. Crear .env file
 5. Crear db "ecommerce" en pgAdmin4
 6. `python manage.py createsuperuser`
