@@ -1,2 +1,7 @@
 # Back Grupo2
-#hi
+
+## Integrantes
+
+- Gabriela
+- Herless
+- Maritza
