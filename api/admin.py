@@ -1,26 +1,51 @@
 from django.contrib import admin
 
-from api.models import cupon, estado_pedido, categoria, cliente, producto, pedido, detalle_pedido
+from api.models import (
+    cupon,
+    estado_pedido,
+    categoria,
+    cliente,
+    producto,
+    pedido,
+    detalle_pedido,
+)
+
 
 class cuponAdmin(admin.ModelAdmin):
-    list_display = ('codigo', 'descripcion', 'descuento' )
+    list_display = ("codigo", "descripcion", "descuento")
+
 
 class estado_pedidoAdmin(admin.ModelAdmin):
-    list_display = ('descripcion', )
+    list_display = ("descripcion",)
+
 
 class categoriaAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'descripcion')
+    list_display = ("nombre", "descripcion")
+
 
 class clienteAdmin(admin.ModelAdmin):
-    list_display = ('username', 'nombre', 'email', 'password')
+    list_display = ("username", "nombre", "email", "password")
+
 
 class productoAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'descripcion', 'categoria', 'igv', 'imagen', 'precio', 'descuento')
+    list_display = (
+        "nombre",
+        "descripcion",
+        "categoria",
+        "igv",
+        "imagen",
+        "precio",
+        "descuento",
+    )
+
+
 class pedidoAdmin(admin.ModelAdmin):
-    list_display = ('fecha', 'subtotal', 'igv', 'total', 'cliente', 'estado', 'cupon')
+    list_display = ("fecha", "subtotal", "igv", "total", "cliente", "estado", "cupon")
+
 
 class detalle_pedidoAdmin(admin.ModelAdmin):
-    list_display = ('pedido', 'producto', 'cantidad', 'subtotal')
+    list_display = ("pedido", "producto", "cantidad", "subtotal")
+
 
 admin.site.register(cupon, cuponAdmin)
 admin.site.register(estado_pedido, estado_pedidoAdmin)
