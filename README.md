@@ -4,4 +4,4 @@
 
 - Gabriela
 - Herless
-- Mariza
+- Maritza
