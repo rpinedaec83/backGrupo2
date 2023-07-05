@@ -4,7 +4,6 @@ from api.models import (
     cupon,
     estado_pedido,
     categoria,
-    cliente,
     producto,
     pedido,
     detalle_pedido,
@@ -50,7 +49,6 @@ class detalle_pedidoAdmin(admin.ModelAdmin):
 admin.site.register(cupon, cuponAdmin)
 admin.site.register(estado_pedido, estado_pedidoAdmin)
 admin.site.register(categoria, categoriaAdmin)
-admin.site.register(cliente, clienteAdmin)
 admin.site.register(producto, productoAdmin)
 admin.site.register(pedido, pedidoAdmin)
 admin.site.register(detalle_pedido, detalle_pedidoAdmin)
