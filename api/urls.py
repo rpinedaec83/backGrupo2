@@ -1,12 +1,5 @@
-"""api URLs"""
-
-# Django
 from django.urls import include, path
-
-# Django REST Framework
 from rest_framework.routers import DefaultRouter
-
-# Views
 from api import views
 
 router = DefaultRouter()

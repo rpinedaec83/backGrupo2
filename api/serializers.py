@@ -3,12 +3,12 @@ from .models import (
     cupon,
     estado_pedido,
     categoria,
-    cliente,
     producto,
     pedido,
     detalle_pedido,
 )
 from rest_framework import serializers
+from users.models import User
 
 
 class CuponSerializer(serializers.HyperlinkedModelSerializer):
@@ -31,7 +31,7 @@ class CategoriaSerializer(serializers.HyperlinkedModelSerializer):
 
 class ClienteSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = cliente
+        model = User
         fields = "__all__"
 
 
