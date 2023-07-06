@@ -8,6 +8,7 @@ from drf_yasg import openapi
 schema_view = get_schema_view(
    openapi.Info(
       title="PachaQtec Hackaton Final Grupo 2",
+      default_version='v1',
       description="Descripcion de APIS",
       terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="contact@snippets.local"),
@@ -22,9 +23,8 @@ router = DefaultRouter()
 
 urlpatterns = [path("", include(router.urls))]
 router.register(r'cupones', views.CuponViewSet)
-router.register(r'estado_pedidos', views.Estado_pedidoViewSet)
+router.register(r'estado_pedidos', views.Estado_PedidoViewSet)
 router.register(r'categorias', views.CategoriaViewSet)
-router.register(r'clientes', views.ClienteViewSet)
 router.register(r'productos', views.ProductoViewSet)
 router.register(r'pedidos', views.PedidoViewSet)
 router.register(r'detalle_pedidos', views.Detalle_pedidoViewSet)

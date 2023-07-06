@@ -2,7 +2,7 @@ from django.contrib.auth.models import User, Group
 from api.models import cupon, estado_pedido, categoria, producto, pedido, detalle_pedido
 from rest_framework import viewsets
 from rest_framework import permissions
-from api.serializers import CuponSerializer, Estado_PedidoSerializer, CategoriaSerializer, ClienteSerializer, ProductoSerializer, PedidoSerializer, Detalle_PedidoSerializer
+from .serializers import CuponSerializer, Estado_PedidoSerializer, CategoriaSerializer, ClienteSerializer, ProductoSerializer, PedidoSerializer, detallePedidoSerializer
 from rest_framework import filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -64,7 +64,7 @@ class PedidoViewSet(viewsets.ModelViewSet):
 class Detalle_pedidoViewSet(viewsets.ModelViewSet):
     
     queryset = detalle_pedido.objects.all()
-    serializer_class = Detalle_PedidoSerializer
+    serializer_class = detallePedidoSerializer
     permission_classes = [permissions.IsAuthenticated]    
     filter_backends = [filters.SearchFilter]
     search_fields=['pedido']

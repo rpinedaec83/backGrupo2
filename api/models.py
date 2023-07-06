@@ -1,8 +1,7 @@
 from django.db import models
 from users.models import User
-from django.contrib.auth.models import AbstractUser
 
-class cupon(AbstractUser):
+class cupon(models.Model):
     codigo = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=2000)
     descuento = models.DecimalField(max_digits=10, decimal_places=2)
