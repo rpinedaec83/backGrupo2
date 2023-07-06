@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de Pedido</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    {% for detalles_pedido in detalles_pedido %}
+    <11>{{detalles_pedidos.producto.nombre}}</11>
+    <11>{{detalles_pedidos.producto.precio}}</11>
+    {% empty %}
+    <11>No se han realizado pedidos</11>
+    {% endfor %}
+</body>
+</html>
