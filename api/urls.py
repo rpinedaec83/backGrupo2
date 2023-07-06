@@ -23,8 +23,6 @@ schema_view = get_schema_view(
 )
 
 router = DefaultRouter()
-# router.register(r'api', views.ApiViewSet, basename='api')
-
 router.register(r'cupones', views.CuponViewSet)
 router.register(r'estado_pedidos', views.Estado_PedidoViewSet)
 router.register(r'categorias', views.CategoriaViewSet)

@@ -45,14 +45,14 @@ function culqi() {
       $.ajax({
          type: 'POST',
          url: '/charges/',
-         data: { 
-            csrfmiddlewaretoken: '{{ csrf_token }}', 
-            token: Culqi.token.id, 
-            installments: Culqi.token.metadata.installments, 
+         data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            token: Culqi.token.id,
+            installments: Culqi.token.metadata.installments,
             idPedido:1,
             moneda:"PEN",
             monto:1000,
-            email:"rpineda@x-codec.net" 
+            email:"rpineda@x-codec.net"
           },
          datatype: 'json',
          success: function(res){

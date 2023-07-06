@@ -31,7 +31,3 @@ urlpatterns = [
     path("", include(("api.urls", "api"), namespace="api")),
     path("", include(("users.urls", "users"), namespace="users")),
 ]
-
-# urlpatterns += [
-#     path('api-auth/', include('rest_framework.urls'))
-# ]
