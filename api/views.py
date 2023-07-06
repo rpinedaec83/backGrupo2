@@ -1,17 +1,17 @@
-from django.contrib.auth.models import User, Group
+from users.models import User
 from api.models import cupon, estado_pedido, categoria, producto, pedido, detalle_pedido
-from rest_framework import viewsets
-from rest_framework import permissions
+from rest_framework import viewsets, permissions
 from .serializers import CuponSerializer, Estado_PedidoSerializer, CategoriaSerializer, ClienteSerializer, ProductoSerializer, PedidoSerializer, detallePedidoSerializer
 from rest_framework import filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.contrib.auth.decorators import login_required
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from django.views.decorators.csrf import csrf_exempt
 import requests
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from .temp import payment
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 class CuponViewSet(viewsets.ModelViewSet):
     
@@ -100,3 +100,47 @@ def charges(request):
         return JsonResponse(charge.json(), safe=False)
 
     return JsonResponse("only POST method", safe=False)
+
+def agregar_compra(request, producto_id, user_id):
+    try:
+        cliente_ = get_object_or_404(User, id=user_id)
+        estado_ = estado_pedido.objects.get(descripcion="pendiente")
+        pedido_ = pedido.objects.get_or_create(
+            cliente=cliente_, 
+            estado = estado_, 
+            defaults={'subtotal':0,'igv':0,'total':0,'cupon':None}
+        )
+        producto_ = get_object_or_404(producto, id = producto_id)
+
+        pedido_[0].save()
+
+        detalle_nuevo = detalle_pedido(pedido=pedido_[0], producto = producto_, cantidad=1, subtotal=producto_.precio)
+        detalle_nuevo.save()
+    
+    except Http404 as error:
+        print(str(error))
+
+    return render(request, "agregar_producto.html")
+
+def cancelar_compra(request, producto_id, user_id):
+    cliente_ = get_object_or_404(User, id=user_id)
+    pedido_ = get_object_or_404(pedido, cliente = cliente_)
+    producto_ = get_object_or_404(producto, id = producto_id)
+    detalle_pedido_ = detalle_pedido.objects.filter(pedido=pedido_, producto=producto_)
+
+    pedido_.estado = "anulado"
+    pedido_.save()
+    detalle_pedido_.delete()
+
+    return render(request, "agregar_producto.html")
+
+def mostrar_detalle_pedido(request, user_id):
+    cliente_ = get_object_or_404(User, id=user_id)
+    pedido_ = get_object_or_404(pedido, cliente = cliente_)
+    detalle_pedido_ = detalle_pedido.objects.filter(pedido=pedido_)
+
+    return render(request, "detalle_producto.html", {'detalle_pedido_':detalle_pedido_})
+
+def validar_cupon(request, cupon_id):
+    cupon_ = get_object_or_404(cupon, codigo = cupon_id)
+    return render(request)
