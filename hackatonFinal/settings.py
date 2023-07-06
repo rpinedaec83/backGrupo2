@@ -49,12 +49,17 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework.authtoken",
+    'drf_yasg',
     "api.apps.ApiConfig",
     "users.apps.UsersConfig",
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -62,6 +67,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = "hackatonFinal.urls"
 
@@ -128,6 +135,7 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -144,14 +152,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 DEFAULT_FILE_STORAGE = "hackatonFinal.azure_storage.AzureMediaStorage"
-STATICFILES_STORAGE = "hackatonFinal.azure_storage.AzureStaticStorage"
+#STATICFILES_STORAGE = "hackatonFinal.azure_storage.AzureStaticStorage"
 
 AZURE_ACCOUNT_NAME = os.getenv("AZURE_ACCOUNT_NAME")
 AZURE_ACCOUNT_KEY = os.getenv("AZURE_ACCOUNT_KEY")
 AZURE_CUSTOM_DOMAIN = f"{AZURE_ACCOUNT_NAME}.blob.core.windows.net"
 
-STATIC_URL = f"https://{AZURE_CUSTOM_DOMAIN}/staticgpr2/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
+#STATIC_URL = f"https://{AZURE_CUSTOM_DOMAIN}/staticgpr2/"
+STATIC_URL = '/static/'
+#STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 MEDIA_URL = f"https://{AZURE_CUSTOM_DOMAIN}/mediagpr2/"
 MEDIA_ROOT = BASE_DIR / "mediafiles"
