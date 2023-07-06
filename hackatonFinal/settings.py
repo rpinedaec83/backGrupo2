@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "rest_framework.authtoken",
     "api.apps.ApiConfig",
     "users.apps.UsersConfig",
 ]
@@ -162,4 +161,3 @@ MEDIA_ROOT = BASE_DIR / "mediafiles"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = 'users.User'
-AUTH_API_MODEL = 'api.cupon'

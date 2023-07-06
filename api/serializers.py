@@ -14,6 +14,10 @@ from users.models import User
 
 
 class CuponSerializer(serializers.HyperlinkedModelSerializer):
+    def retrieve(self, data):
+        if not data:
+            raise serializers.ValidationError({"data": "No existe Cupon", "error": True})
+    
     class Meta:
         model = cupon
         fields = "__all__"
@@ -43,25 +47,19 @@ class ProductoSerializer(serializers.HyperlinkedModelSerializer):
         fields = "__all__"
 
 
-class PedidoSerializer(serializers.HyperlinkedModelSerializer):
+class PedidoSerializer(serializers.ModelSerializer):
+    def retrieve(self, data):
+        if not data:
+            raise serializers.ValidationError({"data": "No existen Pedidos", "error": True})
     class Meta:
         model = pedido
-        fields = "__all__"
+        fields = '__all__'
 
-class ValidateCuponSerializer(serializers.Serializer):
-    codigo = serializers.CharField(max_length=200)
-
+class detallePedidoSerializer(serializers.ModelSerializer):
     def validate(self, data):
-        cupon = authenticate(codigo=data['codigo'])
-        if not cupon:
-            raise serializers.ValidationError('El código no es válido')
-
-        self.context['cupon'] = cupon
+        if not data["pedido"]:
+            raise serializers.ValidationError({"data": "Se requiere # de Pedido para detalle", "error": True})
         return data
-
-
-
-class Detalle_PedidoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = detalle_pedido
-        fields = "__all__"
+        fields = '__all__'
