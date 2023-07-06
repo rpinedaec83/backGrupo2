@@ -10,8 +10,15 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from django.views.decorators.csrf import csrf_exempt
 import requests
 from django.http import JsonResponse, Http404
-from .temp import payment
+from .templates import payment
 from django.shortcuts import render, get_object_or_404
+from culqi import __version__
+from culqi.client import Culqi
+from culqi.resources import Card
+from culqi.resources import Customer
+from culqi.resources import Charge
+import json
+from django.http import HttpResponse
 
 class CuponViewSet(viewsets.ModelViewSet):
     queryset = cupon.objects.all()
@@ -34,13 +41,6 @@ class CategoriaViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ['nombre']
 
-# class ClienteViewSet(viewsets.ModelViewSet):
-#     queryset = cliente.objects.all()
-#     serializer_class = ClienteSerializer
-#     permission_classes = [permissions.IsAuthenticated]
-#     filter_backends = [filters.SearchFilter]
-#     search_fields = ['nombre']
-
 class ProductoViewSet(viewsets.ModelViewSet):
     queryset = producto.objects.all()
     serializer_class = ProductoSerializer
@@ -62,37 +62,51 @@ class Detalle_pedidoViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields=['pedido']
 
+public_key = "pk_test_89a1417406ce7fa2"
+private_key = "sk_test_SWyklAB8rIyjXmje"
+
 def payment(request):
-    return render(request, 'payment/index.html')
+     return render(request, 'payment/index.html')
 
 @csrf_exempt
-def charges(request):
+def generateCharge(request):
     if request.method == 'POST':
-        token = request.POST['token']
-        installments = request.POST['installments']
-        pedido = int(request.POST['idPedido'])
-        email = request.POST['email']
-        monto = int(request.POST['monto'])
-        descripcion = 'Pago pachaqtec curso online'
-        moneda = request.POST['moneda']
-        auth_token='sk_test_9dda9590d5943420'
-        hed = {'Authorization': 'Bearer ' + auth_token}
-        data = {
-                    'amount': monto,
-                    'currency_code': moneda,
-                    'email': email,
-                    'source_id':token,
-                    'installments':installments,
-                    'metadata':{'Descripcion': descripcion}
-                }
-        url = 'https://api.culqi.com/v2/charges'
-        charge = requests.post(url, json=data, headers=hed)
+        body = request.json
+        version = __version__
 
-        print(charge)
-        dicRes = {'message':'EXITO'}
-        return JsonResponse(charge.json(), safe=False)
-
+        culqi = Culqi(public_key, private_key)
+        charge = Charge(client=culqi)
+        card = charge.create(body)
+        print(card["data"])
+        return HttpResponse(json.dumps(card["data"]), content_type="application/json")
     return JsonResponse("only POST method", safe=False)
+
+# @csrf_exempt
+# def generateCharge(request):
+#     if request.method == 'POST':
+#         token = request.POST['token']
+#         installments = request.POST['installments']
+#         pedido = int(request.POST['idPedido'])
+#         email = request.POST['email']
+#         monto = int(request.POST['monto'])
+#         descripcion = 'Pago pachaqtec curso online'
+#         moneda = request.POST['moneda']
+#         auth_token='sk_test_SWyklAB8rIyjXmje'
+#         hed = {'Authorization': 'Bearer ' + auth_token}
+#         data = {
+#                     'amount': monto,
+#                     'currency_code': moneda,
+#                     'email': email,
+#                     'source_id':token,
+#                     'installments':installments,
+#                     'metadata':{'Descripcion': descripcion}
+#                 }
+#         url = 'https://api.culqi.com/v2/charges'
+#         charge = requests.post(url, json=data, headers=hed)
+#         # print(charge)
+#         dicRes = {'message':'EXITO'}
+#         return JsonResponse(charge.json(), safe=False)
+#     return JsonResponse("only POST method", safe=False)
 
 def agregar_compra(request, producto_id, user_id):
     try:
@@ -104,9 +118,7 @@ def agregar_compra(request, producto_id, user_id):
             defaults={'subtotal':0,'igv':0,'total':0,'cupon':None}
         )
         producto_ = get_object_or_404(producto, id = producto_id)
-
         pedido_[0].save()
-
         detalle_nuevo = detalle_pedido(pedido=pedido_[0], producto = producto_, cantidad=1, subtotal=producto_.precio)
         detalle_nuevo.save()
     except Http404 as error:

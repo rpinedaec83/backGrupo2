@@ -1,4 +1,4 @@
-from django.urls import include, path
+from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 from api import views
 from .views import agregar_compra, cancelar_compra, mostrar_detalle_pedido, validar_cupon
@@ -30,11 +30,14 @@ router.register(r'productos', views.ProductoViewSet)
 router.register(r'pedidos', views.PedidoViewSet)
 router.register(r'detalle_pedidos', views.Detalle_pedidoViewSet)
 
+
 urlpatterns = [
     path("", include(router.urls)),
     path("api/agregar_compra/<int:producto_id>/<int:user_id>", agregar_compra, name="agregar_compra"),
     path("api/cancelar_compra/<int:producto_id>/<int:user_id>", cancelar_compra, name="cancelar_compra"),
     path("api/mostrar_detalle_pedido/<int:user_id>", mostrar_detalle_pedido, name="mostrar_detalle_pedido"),
+    re_path(r'^payment/', views.payment, name='index'),
+    re_path(r'^payment/generateCharge/', views.generateCharge, name='generateCharge'),
 ]
 
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
