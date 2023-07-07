@@ -41,10 +41,14 @@ class ClienteSerializer(serializers.HyperlinkedModelSerializer):
         fields = "__all__"
 
 
-class ProductoSerializer(serializers.HyperlinkedModelSerializer):
+class ProductoSerializer(serializers.ModelSerializer):
     class Meta:
         model = producto
         fields = "__all__"
+
+    def create(self, data):
+        Producto = producto.objects.create(**data)
+        return Producto
 
 
 class PedidoSerializer(serializers.ModelSerializer):

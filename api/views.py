@@ -1,6 +1,6 @@
 from users.models import User
 from api.models import cupon, estado_pedido, categoria, producto, pedido, detalle_pedido
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from .serializers import CuponSerializer, Estado_PedidoSerializer, CategoriaSerializer, ClienteSerializer, ProductoSerializer, PedidoSerializer, detallePedidoSerializer
 from rest_framework import filters
 from rest_framework.views import APIView
@@ -19,6 +19,7 @@ from culqi.resources import Customer
 from culqi.resources import Charge
 import json
 from django.http import HttpResponse
+from rest_framework.decorators import api_view, permission_classes
 
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework.decorators import api_view, permission_classes
@@ -51,6 +52,21 @@ class ProductoViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [filters.SearchFilter]
     search_fields = ['nombre']
+
+    def create(self, request, *args, **kwargs):
+        serializer = ProductoSerializer(data=request.data, context={"request": self.request})
+        serializer.is_valid(raise_exception=True)
+        exp = serializer.save()
+        data = ProductoSerializer(exp).data
+        return Response(data, status=status.HTTP_201_CREATED)
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def perform_destroy(self, instance):
+        instance.delete()
 
 class PedidoViewSet(viewsets.ModelViewSet):
     queryset = pedido.objects.all()
@@ -150,3 +166,9 @@ def mostrar_detalle_pedido(request, user_id):
 def validar_cupon(request, cupon_id):
     cupon_ = get_object_or_404(cupon, codigo = cupon_id)
     return render(request)
+
+@api_view(["GET"])
+def PorductoView(req):
+    productos = producto.objects.all()
+    serializer = ProductoSerializer(productos, many=True)
+    return Response(serializer.data)
