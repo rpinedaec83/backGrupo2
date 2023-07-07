@@ -1,8 +1,7 @@
 from users.models import User
 from api.models import cupon, estado_pedido, categoria, producto, pedido, detalle_pedido
-from rest_framework import viewsets, permissions, status
-from .serializers import CuponSerializer, Estado_PedidoSerializer, CategoriaSerializer, ClienteSerializer, ProductoSerializer, PedidoSerializer, detallePedidoSerializer
-from rest_framework import filters
+from rest_framework import viewsets, permissions, status, filters
+from .serializers import CuponSerializer, Estado_PedidoSerializer, CategoriaSerializer, ClienteSerializer, ProductoSerializer, PedidoSerializer, detallePedidoSerializer, PostularSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
@@ -14,9 +13,7 @@ from .templates import payment
 from django.shortcuts import render, get_object_or_404
 from culqi import __version__
 from culqi.client import Culqi
-from culqi.resources import Card
-from culqi.resources import Customer
-from culqi.resources import Charge
+from culqi.resources import Card, Customer, Charge
 import json
 from django.http import HttpResponse
 from rest_framework.decorators import api_view, permission_classes
@@ -59,7 +56,7 @@ class ProductoViewSet(viewsets.ModelViewSet):
         exp = serializer.save()
         data = ProductoSerializer(exp).data
         return Response(data, status=status.HTTP_201_CREATED)
-    
+
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
@@ -178,3 +175,29 @@ def CategoriaView(req):
     categorias = categoria.objects.filter()
     serializer = CategoriaSerializer(categorias, many = True)
     return Response(serializer.data)
+
+@api_view(["GET"])
+def ProductoByCategoriaView(req, categoria):
+    productos = producto.objects.filter(categoria = categoria)
+    serializer = ProductoSerializer(productos, many = True)
+    return Response(serializer.data)
+
+@api_view(["GET"])
+def BuscarProductoView(req, nombre):
+    productos = producto.objects.filter(nombre = nombre)
+    serializer = ProductoSerializer(productos, many = True)
+    return Response(serializer.data)
+
+@api_view(["GET"])
+def ProductoByIdView(req, id):
+    productos = producto.objects.filter(id = id)
+    serializer = ProductoSerializer(productos, many = True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def PostularView(request):
+    serializer = PostularSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({'message': 'Datos enviados correctamente.'}, status=201)
+    return Response(serializer.errors, status=400)
