@@ -166,3 +166,9 @@ def PorductoView(req):
     productos = producto.objects.all()
     serializer = ProductoSerializer(productos, many=True)
     return Response(serializer.data)
+
+@api_view(["GET"])
+def CategoriaView(req):
+    categorias = categoria.objects.filter()
+    serializer = CategoriaSerializer(categorias, many = True)
+    return Response(serializer.data)
