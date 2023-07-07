@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User, Grou
+from django.contrib.auth.models import User, Group
 from django.contrib.auth import password_validation, authenticate
 from .models import (
     cupon,
