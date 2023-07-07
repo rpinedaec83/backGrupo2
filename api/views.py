@@ -20,6 +20,10 @@ from culqi.resources import Charge
 import json
 from django.http import HttpResponse
 
+from django.views.decorators.csrf import ensure_csrf_cookie
+from rest_framework.decorators import api_view, permission_classes
+
+
 class CuponViewSet(viewsets.ModelViewSet):
     queryset = cupon.objects.all()
     serializer_class = CuponSerializer
@@ -68,7 +72,9 @@ private_key = "sk_test_SWyklAB8rIyjXmje"
 def payment(request):
      return render(request, 'payment/index.html')
 
+
 @csrf_exempt
+@permission_classes(["AllowAny"])
 def generateCharge(request):
     if request.method == 'POST':
         body = request.json
