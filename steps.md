@@ -7,3 +7,5 @@
 7. `py manage.py migrate`
 8. `python manage.py createsuperuser`
 9. `py manage.py runserver`
+
+`python manage.py collectstatic`
