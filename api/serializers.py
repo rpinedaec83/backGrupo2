@@ -46,6 +46,10 @@ class ProductoSerializer(serializers.HyperlinkedModelSerializer):
         model = producto
         fields = "__all__"
 
+    def create(self, data):
+        Producto = producto.objects.create(**data)
+        return Producto
+
 
 class PedidoSerializer(serializers.ModelSerializer):
     def retrieve(self, data):
