@@ -29,7 +29,7 @@ class Estado_PedidoSerializer(serializers.HyperlinkedModelSerializer):
         fields = "__all__"
 
 
-class CategoriaSerializer(serializers.HyperlinkedModelSerializer):
+class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = categoria
         fields = "__all__"
