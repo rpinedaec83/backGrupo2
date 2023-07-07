@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Grou
 from django.contrib.auth import password_validation, authenticate
 from .models import (
     cupon,
@@ -17,7 +17,7 @@ class CuponSerializer(serializers.HyperlinkedModelSerializer):
     def retrieve(self, data):
         if not data:
             raise serializers.ValidationError({"data": "No existe Cupon", "error": True})
-    
+
     class Meta:
         model = cupon
         fields = "__all__"
@@ -45,7 +45,6 @@ class ProductoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = producto
         fields = "__all__"
-
 
 class PedidoSerializer(serializers.ModelSerializer):
     def retrieve(self, data):
