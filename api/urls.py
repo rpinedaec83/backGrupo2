@@ -38,6 +38,9 @@ urlpatterns = [
     path("api/mostrar_detalle_pedido/<int:user_id>", mostrar_detalle_pedido, name="mostrar_detalle_pedido"),
     re_path(r'^payment/', views.payment, name='index'),
     re_path(r'^payment/generateCharge/', views.generateCharge, name='generateCharge'),
+    path("api/productos/", views.PorductoView, name="productos"),
 ]
 
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

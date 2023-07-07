@@ -41,7 +41,7 @@ class ClienteSerializer(serializers.HyperlinkedModelSerializer):
         fields = "__all__"
 
 
-class ProductoSerializer(serializers.HyperlinkedModelSerializer):
+class ProductoSerializer(serializers.ModelSerializer):
     class Meta:
         model = producto
         fields = "__all__"
