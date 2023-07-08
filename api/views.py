@@ -181,11 +181,6 @@ def CategoriaView(req):
     serializer = CategoriaSerializer(categorias, many = True)
     return Response(serializer.data)
 
-@api_view(["GET"])
-def ProductoView(req):
-    productos = producto.objects.filter(categoria_id=1)
-    serializer = CategoriaSerializer(productos, many = True)
-    return Response(serializer.data)
 
 @api_view(["GET"])
 def PriceView(req):

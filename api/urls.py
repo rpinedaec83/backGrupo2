@@ -42,7 +42,6 @@ urlpatterns = [
     re_path(r'^payment/generateCharge/', views.generateCharge, name='generateCharge'),
     path("api/productos/", views.PorductoView, name="productos"),
     path("api/categorias/", views.CategoriaView, name="categorias"),
-    path("api/productos/categoria/", views.ProductoView, name = "productos"),
     path("api/productos/precio/", views.PriceView, name="productos"),
     path("api/productos/<int:id>/", views.ProductoByIdView, name="productos_por_categoria"),
     path("api/productos/categoria/<int:categoria>/", views.ProductoByCategoriaView, name="productos_por_categoria"),
