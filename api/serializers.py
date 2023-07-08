@@ -7,9 +7,11 @@ from .models import (
     producto,
     pedido,
     detalle_pedido,
+    postular
 )
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
+from rest_framework.validators import UniqueValidator
 from users.models import User
 
 
@@ -17,7 +19,7 @@ class CuponSerializer(serializers.ModelSerializer):
     def retrieve(self, data):
         if not data:
             raise serializers.ValidationError({"data": "No existe Cupon", "error": True})
-    
+
     class Meta:
         model = cupon
         fields = "__all__"
@@ -67,3 +69,12 @@ class detallePedidoSerializer(serializers.ModelSerializer):
     class Meta:
         model = detalle_pedido
         fields = '__all__'
+
+class PostularSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = postular
+        fields = '__all__'
+
+    def create(self, data):
+        Postular = postular.objects.create(**data)
+        return Postular

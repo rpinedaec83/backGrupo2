@@ -7,6 +7,7 @@ from api.models import (
     producto,
     pedido,
     detalle_pedido,
+    postular
 )
 
 
@@ -45,6 +46,13 @@ class pedidoAdmin(admin.ModelAdmin):
 class detalle_pedidoAdmin(admin.ModelAdmin):
     list_display = ("pedido", "producto", "cantidad", "subtotal")
 
+class postularAdmin(admin.ModelAdmin):
+    list_display = (
+        "nombre",
+        "celular",
+        "email",
+        "producto",
+    )
 
 admin.site.register(cupon, cuponAdmin)
 admin.site.register(estado_pedido, estado_pedidoAdmin)
@@ -52,3 +60,4 @@ admin.site.register(categoria, categoriaAdmin)
 admin.site.register(producto, productoAdmin)
 admin.site.register(pedido, pedidoAdmin)
 admin.site.register(detalle_pedido, detalle_pedidoAdmin)
+admin.site.register(postular, postularAdmin)

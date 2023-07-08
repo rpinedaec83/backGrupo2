@@ -42,8 +42,11 @@ urlpatterns = [
     path("api/categorias/", views.CategoriaView, name="categorias"),
     path("api/productos/categoria/", views.ProductoView, name = "productos"),
     path("api/productos/precio/", views.PriceView, name="productos")
+    path("api/productos/<int:id>/", views.ProductoByIdView, name="productos_por_categoria"),
+    path("api/productos/categoria/<int:categoria>/", views.ProductoByCategoriaView, name="productos_por_categoria"),
+    path("api/productos/buscar/<str:nombre>/", views.BuscarProductoView, name="buscar_productos_por_nombre"),
+   path("api/postular/", views.PostularView, name="postular"),
 ]
 
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 
