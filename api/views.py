@@ -131,14 +131,12 @@ def generateCharge(request):
 def agregar_compra(request, producto_id, user_id):
     try:
         cliente_ = get_object_or_404(User, id=user_id)
-        estado_ = estado_pedido.objects.get(descripcion="pendiente")
         pedido_ = pedido.objects.get_or_create(
             cliente=cliente_,
-            estado = estado_,
+            estado = "completado",
             defaults={'subtotal':0,'igv':0,'total':0,'cupon':None}
         )
         producto_ = get_object_or_404(producto, id = producto_id)
-        pedido_.estado = "completado"
         pedido_[0].save()
         detalle_nuevo = detalle_pedido(pedido=pedido_[0], producto = producto_, cantidad=1, subtotal=producto_.precio)
         detalle_nuevo.save()
