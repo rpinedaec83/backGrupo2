@@ -14,3 +14,4 @@ class AzureStaticStorage(AzureStorage):
     account_key = os.getenv('AZURE_ACCOUNT_KEY')
     azure_container = 'staticgpr2'
     expiration_secs = None
+
