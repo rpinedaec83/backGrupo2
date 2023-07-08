@@ -15,7 +15,7 @@ from rest_framework.validators import UniqueValidator
 from users.models import User
 
 
-class CuponSerializer(serializers.HyperlinkedModelSerializer):
+class CuponSerializer(serializers.ModelSerializer):
     def retrieve(self, data):
         if not data:
             raise serializers.ValidationError({"data": "No existe Cupon", "error": True})
@@ -25,7 +25,7 @@ class CuponSerializer(serializers.HyperlinkedModelSerializer):
         fields = "__all__"
 
 
-class Estado_PedidoSerializer(serializers.HyperlinkedModelSerializer):
+class Estado_PedidoSerializer(serializers.ModelSerializer):
     class Meta:
         model = estado_pedido
         fields = "__all__"
@@ -37,7 +37,7 @@ class CategoriaSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ClienteSerializer(serializers.HyperlinkedModelSerializer):
+class ClienteSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"

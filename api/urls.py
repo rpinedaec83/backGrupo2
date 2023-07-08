@@ -1,7 +1,7 @@
 from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 from api import views
-from .views import agregar_compra, cancelar_compra, mostrar_detalle_pedido, validar_cupon
+from .views import agregar_compra, cancelar_compra, mostrar_detalle_pedido, validar_cupon, PriceView
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from drf_yasg import openapi
@@ -40,6 +40,8 @@ urlpatterns = [
     re_path(r'^payment/generateCharge/', views.generateCharge, name='generateCharge'),
     path("api/productos/", views.PorductoView, name="productos"),
     path("api/categorias/", views.CategoriaView, name="categorias"),
+    path("api/productos/categoria/", views.ProductoView, name = "productos"),
+    path("api/productos/precio/", views.PriceView, name="productos")
     path("api/productos/<int:id>/", views.ProductoByIdView, name="productos_por_categoria"),
     path("api/productos/categoria/<int:categoria>/", views.ProductoByCategoriaView, name="productos_por_categoria"),
     path("api/productos/buscar/<str:nombre>/", views.BuscarProductoView, name="buscar_productos_por_nombre"),
