@@ -128,7 +128,7 @@ def generateCharge(request):
 #     return JsonResponse("only POST method", safe=False)
 
 @api_view(["GET"])
-def agregar_compra(request, producto_id, user_id):
+def agregar_compra(req, producto_id, user_id):
     try:
         estado_pedido_ = estado_pedido(descripcion="completado")
         estado_pedido_.save()
@@ -147,7 +147,7 @@ def agregar_compra(request, producto_id, user_id):
         print(str(error))
     return Response(serializer.data)
 
-def cancelar_compra(request, producto_id, user_id):
+def cancelar_compra(req, producto_id, user_id):
     cliente_ = get_object_or_404(User, id=user_id)
     pedido_ = get_object_or_404(pedido, cliente = cliente_)
     producto_ = get_object_or_404(producto, id = producto_id)
@@ -159,14 +159,14 @@ def cancelar_compra(request, producto_id, user_id):
     return Response(serializer.data)
 
 @api_view(["GET"])
-def mostrar_detalle_pedido(request, user_id):
+def mostrar_detalle_pedido(req, user_id):
     cliente_ = get_object_or_404(User, id=user_id)
     pedido_ = get_object_or_404(pedido, cliente = cliente_)
     detalle_pedido_ = detalle_pedido.objects.filter(pedido=pedido_)
     serializer = detallePedidoSerializer(detalle_pedido_)
     return Response(serializer.data)
 
-def validar_cupon(request, cupon_id):
+def validar_cupon(req, cupon_id):
     cupon_ = get_object_or_404(cupon, codigo = cupon_id)
     serializer = CuponSerializer(cupon_)
     return Response(serializer.data)
@@ -216,7 +216,7 @@ def PostularView(request):
     return Response(serializer.errors, status=400)
 
 @api_view(["GET"])
-def compras_realizadas(request):
+def compras_realizadas(req):
     pedido_ = pedido.objects.filter(estado_pedido = "completado")
     serializer = PedidoSerializer(pedido_)
     return Response(serializer.data)
