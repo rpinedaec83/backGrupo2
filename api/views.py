@@ -130,10 +130,12 @@ def generateCharge(request):
 @api_view(["GET"])
 def agregar_compra(request, producto_id, user_id):
     try:
+        estado_pedido_ = estado_pedido(descripcion="completado")
+        estado_pedido_.save()
         cliente_ = get_object_or_404(User, id=user_id)
         pedido_ = pedido.objects.get_or_create(
             cliente=cliente_,
-            estado = "completado",
+            estado = estado_pedido_,
             defaults={'subtotal':0,'igv':0,'total':0,'cupon':None}
         )
         producto_ = get_object_or_404(producto, id = producto_id)
